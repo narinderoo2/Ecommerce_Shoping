@@ -1,0 +1,151 @@
+{% extends 'alllink.html' %}
+{% load static %}
+{% block title %}Check Out{% endblock %}
+{% block body %}
+
+<div class="page-title-overlap bg-dark pt-4">
+  <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+    <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+      <nav >
+        <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+          <li ><a class="text-nowrap" href="#"><i class="fa fa-home"></i>&nbsp;Home /&nbsp;</a></li>
+          <li class=" text-nowrap"><a href="#">Shop /&nbsp;</a>
+          </li>
+          <li class=" text-nowrap active" aria-current="page">Checkout</li>
+        </ol>
+      </nav>
+    </div>
+    <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+      <h1 class="h3 text-light mb-0">Checkout</h1>
+    </div>
+  </div>
+</div>
+<!-- Page Content-->
+<div class="container pb-5 mb-2 mb-md-4">
+  <div class="row">
+    <section class="col-lg-8">
+      <!-- Steps-->
+      <div class="steps steps-light pt-2 pb-3 mb-5"><a class="step-item active" href="">
+        <div class="step-progress"><span class="step-count">1</span></div>
+        <div class="step-label"><i class="fa fa-shopping-cart"></i>Cart</div></a><a class="step-item active " href="{% url 'checkout' %}">
+        <div class="step-progress"><span class="step-count">2</span></div>
+        <div class="step-label"><i class="fa fa-user-circle"></i>Your details</div></a><a class="step-item  active" href="{% url 'payment' %}">
+        <div class="step-progress"><span class="step-count ">3</span></div>
+        <div class="step-label"><i class="fa fa-credit-card active"></i>Payment</div></a><a class="step-item "  href="#">
+        <div class="step-progress"><span class="step-count">4</span></div>
+        <div class="step-label"><i class="fa fa-check-square"></i>Review</div></a></div>
+          <!-- Payment methods accordion-->
+          <h2 class="h6 pb-3 mb-2">Choose payment method</h2>
+          <div class="accordion mb-2" id="payment-method" role="tablist">
+            <div class="card">
+              <div class="card-header" role="tab">
+                <h3 class="accordion-heading"><a href="#card" data-toggle="collapse"><i class="fa fa-shopping-cart font-size-lg mr-2 mt-n1 align-middle"></i>Pay with Credit </a></h3>
+              </div>
+              <div class="collapse show" id="card" data-parent="#payment-method" role="tabpanel">
+                <div class="card-body">
+                  <p class="font-size-sm">We accept following credit cards:&nbsp;&nbsp;<img class="d-inline-block align-middle" src="{% static '/img/cards.png' %}" style="width: 187px;" alt="Cerdit Cards"></p>
+                  <div class="card-wrapper"></div>
+                  <form class="interactive-credit-card row" method="post">
+                    {% csrf_token %}
+                    <div class="form-group col-sm-6">
+                      <input class="form-control" type="text" name="card_number" placeholder="Card Number" >
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <input class="form-control" type="text" name="full_name"  placeholder="Full Name">
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <input class="form-control" type="text" name="last_month"  placeholder="MM/YY">
+                    </div>
+                    <div class="form-group col-sm-3">
+                      <input class="form-control" type="text" name="cvc"  placeholder="CVC">
+                    </div>
+                    <div class="col-sm-6">
+                      <button class="btn btn-outline-primary btn-block mt-0" type="submit">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" role="tab">
+                <h3 class="accordion-heading"><a class="collapsed" href="#points" data-toggle="collapse"><i class="fa fa-gift mr-2"></i>Redeem Reward Points</a></h3>
+              </div>
+              <div class="collapse" id="points" data-parent="#payment-method" role="tabpanel">
+                <div class="card-body">
+                  <p>You currently have<span class="font-weight-medium">&nbsp;384</span>&nbsp;Reward Points to spend.</p>
+                  <div class="custom-control custom-checkbox d-block">
+                    <input class="custom-control-input" type="checkbox" id="use_points">
+                    <label class="custom-control-label" for="use_points">Use my Reward Points to pay for this order.</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-none d-lg-flex pt-4 mt-3">
+            <div class="w-50 pr-3"><a class="btn btn-secondary btn-block" href="{% url 'checkout' %}"><i class="fa fa-arrow-left mt-sm-0 mr-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
+            <div class="w-50 pl-2"><a class="btn btn-primary btn-block" href="{% url 'review' %}"><span class="d-none d-sm-inline">Proceed to Shipping</span><span class="d-inline d-sm-none">Next</span><i class="fa fa-arrow-right mt-sm-0 ml-1"></i></a></div>
+          </div>
+
+        </section>
+        <!-- Sidebar-->
+        <aside class="col-lg-4 pt-4 pt-lg-0">
+          <div class="cz-sidebar-static rounded-lg box-shadow-lg ml-lg-auto">
+            <div class="widget mb-3">
+              <h2 class="widget-title text-center">Order summary</h2>
+              {% for ps in order %}
+              <div class="media align-items-center pb-2 border-bottom"><a class="d-block mr-2" href="#">
+              {% if ps.variant.image_id > 0 %}
+                  <img src="{{ps.variant.image_tag}}"width="64" alt="Product"></a>
+                {% else %}
+                  <img width="64" src="{{ps.product.image1.url}}" alt="Product"/></a>
+                {% endif %}
+              
+              
+                <div class="media-body">
+                  <h6 class="widget-product-title"><a href="#">{{ps.product.title}}</a></h6>
+                  <div class="widget-product-meta"><span class="text-accent mr-2">{% if ps.product.variant == 'None' %} ${{ps.price}} {% else %} ${{ps.variant.price}} {% endif %}</span><span class="text-muted">x {{ps.quantity}}</span></div>
+                </div>
+              </div>
+       
+              {% endfor %}
+
+            </div>
+            <ul class="list-unstyled font-size-sm pb-2 border-bottom">
+            
+              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Subtotal:</span><span class="text-right">
+              
+              {{ add_value|floatformat:"2" }}
+              
+              </span></li>
+              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Shipping:</span><span class="text-right">—</span></li>
+              {% if add_value >= 2000 %}
+              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Taxes:</span><span class="text-right">$30.<small>50</small></span></li>
+              {% else %}
+              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Taxes:</span><span class="text-right">$20.<small>50</small></span></li>
+
+              {% endif %}
+              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Discount:</span><span class="text-right">—</span></li>
+
+            </ul>
+            {% if add_value >= 2000 %}
+            <h3 class="font-weight-normal text-center my-4">${{add_value|add:'30'}}.<small>50</small></h3>
+            {% else %}
+            <h3 class="font-weight-normal text-center my-4">${{add_value|add:'20' }}.<small>50</small></h3>
+            {% endif %}
+
+            <form class="needs-validation" method="post" novalidate>
+              <div class="form-group">
+                <input class="form-control" type="text" placeholder="Promo code" required>
+                <div class="invalid-feedback">Please provide promo code.</div>
+              </div>
+              <button class="btn btn-outline-primary btn-block" type="submit">Apply promo code</button>
+            </form>
+          </div>
+        </aside>
+      </div>
+      <!-- Navigation (mobile)-->
+
+    </div>
+
+{% endblock %}

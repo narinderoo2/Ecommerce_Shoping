@@ -1,0 +1,13 @@
+<input type="hidden" name="size" id="size" value="{{size_id}}">
+<ul class="list-group list-group-horizontal borderless">
+    <label class='mx-2' for='size'>Color:</label>
+    {% for ps in colors %}
+        <input type="radio" name="variantid" id="variantid" value="{{ps.id}}" onchange="this.form.submit();">
+        <li>
+            <a href="#" style="background-color: {{ ps.color.code }}; width:60px;">
+               {{ps.price}}
+            </a>
+            <img class="my-2" src="{{ps.image_tag}}" alt='love uS' style="height:50px">
+        </li>
+    {% endfor %}
+</ul>

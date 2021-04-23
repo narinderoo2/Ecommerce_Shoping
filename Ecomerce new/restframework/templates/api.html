@@ -1,0 +1,59 @@
+{% extends 'alllink.html' %}
+{% load static %}
+{% block title %}Page of Api{% endblock %}
+{% block body %}
+ <!-- Page Content-->
+    <main class="container px-0">
+      <!-- Row: Shop online-->
+      <section class="row no-gutters">
+        <div class="col-md-12 px-3 px-md-5 py-5">
+          <div class="mx-auto" >
+            <h2 class="h3 pb-3">Overview</h2>
+            <h6 class=" pb-3">  Intoduction</h6>
+            <p class="font-size-sm pb-3 text-muted">
+            <pre> Open-Api offers a Rest-Api for members of Narinder singh
+            The API is deigined to provied URL endpoined for some of the courses.
+            Here are the coureses that use this API.</pre></p>
+
+            <ul class="navbar-nav">
+              <li class="nav-item"><a class="nav-link " href="#" >REST API Token Authentication for Mobile Apps</a>
+              </li>
+              {% if user is not None%}              
+              <li><p>{{token}}</p>
+              </li>
+              {% else %}
+              <li><p> please log in your id and i have provied api token </p> </li>
+              {% endif %}
+              <li > <p><pre>Want to learn to build a website the open api
+              1. Bulding a website with Django (Python) 
+              2. Bulding a REST API (Django Rest-framework)</pre></p>
+              </li>
+
+                    
+            </ul>
+
+          </div>
+        </div>
+        <div class="col-md-12 px-3 px-md-5 py-5">
+          <div class="mx-auto" >
+            <h2 class="h3 pb-3">Using the REST API at open  api</h2>
+            <p class="font-size-sm pb-3 text-muted">  You'll notice all the rerquests below require an Authentication token. That's how users are Authentication from the mobile app and web pages to validate your Authentication tokens.</p>
+            <p><pre>Want to learn to build a product post at the website with the help of api token 
+              1. Category name (it is a inteiger value (1) shoes, (2) clothing ,(3) bags ,(4)sunglasses, (5) watches ,(6) accessories,) 
+              2. user = put any inteiger value , it is only get value of current user.
+              3. title = product title name 
+              4. heading = product heading name
+              5. price = inteiger form (prdouct price)
+              6. slug = it is unique (product-name-styles)
+              7.detail = product all info add in detail 
+              8. image1 = product image select              
+              </pre></p>
+          </div>
+        </div>
+      </section>
+      <!-- Row: Delivery-->
+      <hr>
+      <!-- Section: Team-->
+     
+    </main>
+{% endblock %}

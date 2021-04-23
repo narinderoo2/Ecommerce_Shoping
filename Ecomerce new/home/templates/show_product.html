@@ -1,0 +1,566 @@
+{% extends 'alllink.html' %}
+{% load static %}
+{% block title %} R.Thakur Product Show {% endblock %}
+{% block body %}
+
+ <!-- Custom page title-->
+ <div class="page-title-overlap bg-dark pt-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+      <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+        <nav >
+          <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+            <li><a class="text-nowrap" href="{% url 'home'%}"><i class="fa fa-home"></i> Home /  &nbsp;</a></li>
+            <li ><a href="#">Shop /  &nbsp;</a>
+            </li>
+            <li class=" text-nowrap active" aria-current="page">{{product.title|title}}</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+        <h1 class="h3 text-light mb-2">{{product.heading}}</h1>
+        <div>
+          <div class="star-rating">
+            <i class="fa fa-star {% if product.star_average >= 1 %} text-warning {% endif %} "></i>
+            <i class="fa fa-star {% if product.star_average >= 2 %} text-warning {% endif %} "></i>
+            <i class="fa fa-star {% if product.star_average >= 3 %} text-warning {% endif %} "></i>
+            <i class="fa fa-star {% if product.star_average >= 4 %} text-warning{% endif %} "></i>
+            <i class="fa fa-star {% if product.star_average >= 50 %} text-warning {% endif %} "></i>
+
+          </div><span class="d-inline-block font-size-sm text-white opacity-70 align-middle mt-1 ml-1">{{product.star_average}} Average of Star {{product.count_review}} Reviews</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Page Content-->
+  <div class="container">
+    <div class="bg-light box-shadow-lg rounded-lg">
+      <!-- Tabs-->
+      <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a class="nav-link p-4 active" href="#general" data-toggle="tab" role="tab">General Info</a></li>
+        <li class="nav-item"><a class="nav-link p-4" href="#specs" data-toggle="tab" role="tab">Tech Specs</a></li>
+        <li class="nav-item"><a class="nav-link p-4" href="#reviews" data-toggle="tab" role="tab">Reviews <span class="font-size-sm opacity-60">({{product.count_review}})</span></a></li>
+      </ul>
+      <div class="px-4 pt-lg-3 pb-3 mb-5">
+        <div class="tab-content px-lg-3">
+          <!-- General info tab-->
+          <div class="tab-pane fade show active" id="general" role="tabpanel">
+            <div class="row">
+              <!-- Product gallery-->
+              <div class="col-lg-7 pr-lg-0">
+                <div class="cz-product-gallery">
+                  <div class="cz-preview order-sm-2">
+                  {% if variant.image_id > 0 %}
+                    <div class="cz-preview-item active " id="{{variant.id}}"><img class="cz-image-zoom" src="{{variant.image_tag}}" data-zoom="{{variant.image_tag}}" alt="Product image">
+                      <div class="cz-image-zoom-pane"></div>
+                    </div>
+                    {% else %}
+                    <div class="cz-preview-item {% if product.image1 %} active {% endif %}" id="four"><img class="cz-image-zoom" src="{{product.image1.url}}" data-zoom="{{product.image1.url}}" alt="Product image">
+                      <div class="cz-image-zoom-pane"></div>
+                    </div>
+                  {% endif %}
+                    {% for ps in images %}
+                    <div class="cz-preview-item" id="{{ps.title}}"><img class="cz-image-zoom" src="{{ps.image.url}}" data-zoom="{{ps.image.url}}" alt="Product image">
+                      <div class="cz-image-zoom-pane"></div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                 
+                </div>
+              </div>
+              <!-- Product details-->
+              <div class="col-lg-5 pt-4 pt-lg-0">
+                <div class="product-details ml-auto pb-3">
+                  <div class="m-2" >
+                    <h1 class="h3 text-dark mb-2">{{product.title}}</h1>
+                    <h3 class="h6 text-black-50">{{product.heading}}</h3>
+                  </div>
+
+
+                  <!-- it is ajax scripts size and color adjustment -->
+                  <script>
+                    $(document).on('change', '#post-form',function(e){
+                      e.preventDefault();
+                      $.ajax({
+                        type:'POST',
+                        url:'{% url "ajaxcolor" %}',
+                        data:{
+                          productid:$('productid').val(),
+                          size:$('#size').val(),
+                          csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                          action:'POST'
+                        },
+                        data_type ='html',
+                        success:function(data) {
+                          console.log("success");
+                          $('#appendHere').html(data.rendered_table);
+                        },
+                        error:function(data){
+                          alert("Got an error dude" + data);
+                        }
+                      });
+                    });
+
+                  </script>
+                  
+
+
+                  <!-- Product Variant Size and color addd -->
+                  {% if product.variant == 'Size-Color' %}
+                   <form method="POST" action="?q=selectvariant" id="post-form">
+                    {% csrf_token %}
+                    <div id="appendHere">
+                      <input type="hidden" name="size" id="size" value="{{size_id}}">
+                      <ul class="list-group list-group-horizontal borderless">
+                        <label class='mx-2' for='size'>Size:</label>
+                        {% for ps in sizes %}
+                          <input class="mx-2" type="radio" {% if variant.size_id == ps.size_id %} checked {% endif %} name="variantid" id="variantid" value="{{ps.id}}" onchange="this.form.submit();">
+                          <li >
+                            <a style="color: #204d74; width: 60px;">
+                              <p style="font-size:11px;">{{ps.size.name}}</p>
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </form>
+
+                  <!-- color choose request of post -->
+
+                  <form method="POST" action="?q=selectvariant" id="post-color">
+                    {% csrf_token %}
+                    <div id="appendHere">
+                        <div class="position-relative mr-n4 mb-3">
+                        {% for ps in colors  %}
+                          <div class="custom-control custom-option custom-control-inline mb-2">
+                            <input class="custom-control-input" type="radio" name="variantid" id="color{{ps.color_id}}" data-label="colorOption" value="{{ps.id}}"  {% if variant.id == ps.id %} checked {% endif %} onchange="this.form.submit();">
+                            <label class="custom-option-label rounded-circle" for="color{{ps.color_id}}"><span class="custom-option-color rounded-circle" style="background-color: {{ps.color.code}}"></span></label>
+                          </div>
+                        {% endfor %}
+                        </div>
+                      </div>
+                  </form>
+
+                  <!-- only size show  -->
+                  {% elif product.variant == 'Size' %}
+                  <form method="POST" action="?q=selectvariant" id="post-form">
+                    {% csrf_token %}
+                    <div id="appendHere">
+                      <input type="hidden" name="size" id="size" value="{{size_id}}">
+                      <ul class="list-group list-group-horizontal borderless">
+                        <label class='mx-2' for='size'>Size:</label>
+                        {% for ps in sizes %}
+                          <input class="mx-2" type="radio" {% if variant.id == ps.id %} checked {% endif %} name="variantid" id="variantid" value="{{ps.id}}" onchange="this.form.submit();">
+                          <li >
+                            <a style="color: #204d74; width: 60px;">
+                              <p style="font-size:11px;">{{ps.size.name}}</p>
+                            </a>
+                          </li>
+                        {% endfor %}
+
+                      </ul>
+                    </div>
+                  </form>
+
+                  {% elif product.variant == 'Color' %}
+                  <form method="POST" action="?q=selectvariant" id="post-color">
+                    {% csrf_token %}
+                    <div id="appendHere">
+                        <div class="position-relative mr-n4 mb-3">
+                        {% for ps in colors  %}
+                          <div class="custom-control custom-option custom-control-inline mb-2">
+                            <input class="custom-control-input" type="radio" name="variantid" id="color{{ps.color_id}}" data-label="colorOption" value="{{ps.id}}"  {% if variant.id == ps.id %} checked {% endif %} onchange="this.form.submit();">
+                            <label class="custom-option-label rounded-circle" for="color{{ps.color_id}}"><span class="custom-option-color rounded-circle" style="background-color: {{ps.color.code}}"></span></label>
+                          </div>
+                        {% endfor %}
+                        </div>
+                      </div>
+                  </form>
+                  {% endif %}                                 
+                   
+
+                  <!-- have no product size and color means add to cart item-->
+                  {% if product.variant != 'None' %}
+                    <form method="POST" action="/order/addtoshopcart/{{product.id}}" >
+                    {% csrf_token %}
+                    <input type="hidden" name="variantid" id="variantid" value="{{variant.id}}">
+                    <div class="font-size-sm mb-4"><span class="text-heading font-weight-medium mr-1"><strong>Availability:</strong> {% if variant.quantity > 0 %} In Stock {% else %} Out of Stock{% endif %}</span></div>
+                    <div class="font-size-sm mb-4"><span class="text-heading font-weight-medium mr-1"><strong>Selected:</strong> Color: {{variant.color}} </span></div>
+                    <div class="h3 font-weight-normal text-accent mb-3 mr-1">${{ variant.price}}</div>
+                    <div class="position-relative mr-n4 mb-3">
+                      <div class="product-badge product-available mt-n1"><i class="fa fa-check"></i>Product available</div>
+                    </div>
+
+                    <div class="d-flex align-items-center pt-2 pb-4">
+                      <select class="custom-select mr-3"  name="quantity" style="width: 5rem;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </select>
+                    <a href="{% url 'shopcart'%}">
+                    <button class="btn btn-primary btn-shadow btn-block" type="submit" {% if variant.quantity < 1 %} disabled {% endif %}>
+                    <i class="fa fa-shopping-cart font-size-lg mr-2"></i>Add to Cart</button> </a>                   </div>
+                    </form>
+
+                  {% else %}
+
+                    <form action="/order/addtoshopcart/{{product.id}}" method="POST" >
+                      {% csrf_token %}
+                      <div class="font-size-sm mb-4"><span class="text-heading font-weight-medium mr-1"><strong>Availability:</strong> {% if product.price > 0 %} In Stock {% else %} Out Of Stock{% endif %}</span></div>
+                        <div class="h3 font-weight-normal text-accent mb-3 mr-1">${{ product.price}}</div>
+                          <div class="d-flex align-items-center pt-2 pb-4">
+                            <select class="custom-select mr-3" name="quantity" style="width: 5rem;">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                            <a href="{% url 'shopcart'%}"><button class="btn btn-primary btn-shadow btn-block" type="submit" {% if product.price <= 1 %} disabled {% endif %}><i class="fa fa-shopping-cart font-size-lg mr-2"></i>Add to Cart</button></a>
+                          </div>
+                    </form>
+                  {% endif %}
+
+
+                  <div class="d-flex mb-4">
+                    <div class="w-100 mr-3">
+                    <form action="/order/addtowishlist/{{product.id}}" method="POST">
+                    {% csrf_token %}
+                      <input type="hidden" name="productid" id="productid" value="{{product.id}}">
+                      <button class="btn btn-secondary btn-block" type="submit"><i class="fa fa-heart font-size-lg mr-2"></i><span class='d-none d-sm-inline'>Add to </span>Wishlist</button>
+                    </form>
+                    </div>
+                    <div class="w-100">
+                      <button class="btn btn-secondary btn-block" type="button"><i class="fa fa-compass font-size-lg mr-2"></i>Compare</button>
+                    </div>
+                  </div>
+                  <!-- Product panels-->
+                  <div class="accordion mb-4" id="productPanels">
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="accordion-heading"><a href="#shippingOptions" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="shippingOptions"><i class="fa fa-shopping-bag text-muted lead align-middle mt-n1 mr-2"></i>Shipping options</a></h3>
+                      </div>
+                      <div class="collapse show" id="shippingOptions" data-parent="#productPanels">
+                        <div class="card-body font-size-sm">
+                          <div class="d-flex justify-content-between border-bottom pb-2">
+                            <div>
+                              <div class="font-weight-semibold text-dark">Local courier shipping</div>
+                              <div class="font-size-sm text-muted">2 - 4 days</div>
+                            </div>
+                            <div>$16.50</div>
+                          </div>
+                          <div class="d-flex justify-content-between border-bottom py-2">
+                            <div>
+                              <div class="font-weight-semibold text-dark">UPS ground shipping</div>
+                              <div class="font-size-sm text-muted">4 - 6 days</div>
+                            </div>
+                            <div>$19.00</div>
+                          </div>
+                          <div class="d-flex justify-content-between pt-2">
+                            <div>
+                              <div class="font-weight-semibold text-dark">Local pickup from store</div>
+                              <div class="font-size-sm text-muted">&mdash;</div>
+                            </div>
+                            <div>$0.00</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <div class="card-header">
+                        <h3 class="accordion-heading"><a class="collapsed" href="#localStore" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="localStore"><i class="fa fa-location-arrow text-muted font-size-lg align-middle mt-n1 mr-2"></i>Find in local store</a></h3>
+                      </div>
+                      <div class="collapse" id="localStore" data-parent="#productPanels">
+                        <div class="card-body">
+                          <select class="custom-select">
+                            <option value>Select your country</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Belgium">Belgium</option>
+                            <option value="France">France</option>
+                            <option value="Germany">Germany</option>
+                            <option value="Spain">Spain</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="USA">USA</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Sharing-->
+                  <h6 class="d-inline-block align-middle font-size-base my-2 mr-2">Share:</h6><a class="share-btn sb-twitter mr-2 my-2" href="#"><i class="fa fa-twitter"></i>Twitter</a><a class="share-btn sb-instagram mr-2 my-2" href="#"><i class="fa fa-instagram"></i>Instagram</a><a class="share-btn sb-facebook my-2" href="#"><i class="fa fa-facebook"></i>Facebook</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tech specs tab-->
+
+          <div class="tab-pane fade" id="specs" role="tabpanel">
+            <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
+              <div class="media align-items-center mr-md-3"><img src="{{product.image1.url}}" width="90" alt="Product thumb">
+                <div class="mdeia-body pl-3">
+                  <h6 class="font-size-base mb-2">{{product.heading}}</h6>
+                  <div class="h4 font-weight-normal text-accent">${{product.price}}.<small>99</small></div>
+                </div>
+              </div>              
+            </div>
+            <!-- Specs table-->
+            <div class="row pt-2">
+              <div class="col-lg-5 col-sm-6">
+                <h3 class="h6">General specs</h3>
+                <ul class="list-unstyled font-size-sm pb-2">
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Model:</span><span>Amazfit Smartwatch</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Gender:</span><span>Unisex</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Smartphone app:</span><span>Amazfit Watch</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">OS campitibility:</span><span>Android / iOS</span></li>
+                </ul>
+                <h3 class="h6">Physical specs</h3>
+                <ul class="list-unstyled font-size-sm pb-2">
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Shape:</span><span>Rectangular</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Body material:</span><span>Plastics / Ceramics</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Band material:</span><span>Silicone</span></li>
+                </ul>
+                <h3 class="h6">Display</h3>
+                <ul class="list-unstyled font-size-sm pb-2">
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display type:</span><span>Color</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Display size:</span><span>1.28"</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Screen resolution:</span><span>176 x 176</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Touch screen:</span><span>No</span></li>
+                </ul>
+              </div>
+              <div class="col-lg-5 col-sm-6 offset-lg-1">
+                <h3 class="h6">Functions</h3>
+                <ul class="list-unstyled font-size-sm pb-2">
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Phone calls:</span><span>Incoming call notification</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Monitoring:</span><span>Heart rate / Physical activity</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">GPS support:</span><span>Yes</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Sensors:</span><span>Heart rate, Gyroscope, Geomagnetic, Light sensor</span></li>
+                </ul>
+                <h3 class="h6">Battery</h3>
+                <ul class="list-unstyled font-size-sm pb-2">
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery:</span><span>Li-Pol</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Battery capacity:</span><span>190 mAh</span></li>
+                </ul>
+                <h3 class="h6">Dimensions</h3>
+                <ul class="list-unstyled font-size-sm pb-2">
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Dimensions:</span><span>195 x 20 mm</span></li>
+                  <li class="d-flex justify-content-between pb-2 border-bottom"><span class="text-muted">Weight:</span><span>32 g</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Reviews tab-->
+          <div class="tab-pane fade" id="reviews" role="tabpanel">
+            <div class="d-md-flex justify-content-between align-items-start pb-4 mb-4 border-bottom">
+              <div class="media align-items-center mr-md-3"><img src="{{product.image1.url}}" width="90" alt="Product thumb">
+                <div class="mdeia-body pl-3">
+                  <h6 class="font-size-base mb-2">{{product.heading}}</h6>
+                  <div class="h4 font-weight-normal text-accent">${{product.price}}.<small>99</small></div>
+                </div>
+              </div>
+            </div>
+            <!-- Reviews-->
+            <div class="row pt-2 pb-3">
+              <div class="col-lg-4 col-md-5">
+                <h2 class="h3 mb-4">{{product.count_review}} Reviews</h2>
+                <div class="star-rating mr-2"><i class="fa fa-star font-size-sm text-accent mr-1"></i><i class="fa fa-star font-size-sm text-accent mr-1"></i><i class="fa fa-star font-size-sm text-accent mr-1"></i><i class="fa fa-star font-size-sm text-accent mr-1"></i><i class="fa fa-star font-size-sm text-accent mr-1"></i></div><span class="d-inline-block align-middle">4.1 Overall rating</span>
+                <p class="pt-3 font-size-sm text-muted">58 out of 74 (77%)<br>Customers recommended this product</p>
+              </div>
+              <div class="col-lg-8 col-md-7">
+                <div class="d-flex align-items-center mb-2">
+                  <div class="text-nowrap mr-3"><span class="d-inline-block align-middle text-muted">5</span><i class="fa fa-star font-size-xs ml-1"></i></div>
+                  <div class="w-100">
+                    <div class="progress" style="height: 4px;">
+                      <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div><span class="text-muted ml-3">43</span>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <div class="text-nowrap mr-3"><span class="d-inline-block align-middle text-muted">4</span><i class="fa fa-star font-size-xs ml-1"></i></div>
+                  <div class="w-100">
+                    <div class="progress" style="height: 4px;">
+                      <div class="progress-bar" role="progressbar" style="width: 27%; background-color: #a7e453;" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div><span class="text-muted ml-3">16</span>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <div class="text-nowrap mr-3"><span class="d-inline-block align-middle text-muted">3</span><i class="fa fa-star font-size-xs ml-1"></i></div>
+                  <div class="w-100">
+                    <div class="progress" style="height: 4px;">
+                      <div class="progress-bar" role="progressbar" style="width: 17%; background-color: #ffda75;" aria-valuenow="17" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div><span class="text-muted ml-3">9</span>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                  <div class="text-nowrap mr-3"><span class="d-inline-block align-middle text-muted">2</span><i class="fa fa-star  font-size-xs ml-1"></i></div>
+                  <div class="w-100">
+                    <div class="progress" style="height: 4px;">
+                      <div class="progress-bar" role="progressbar" style="width: 9%; background-color: #fea569;" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div><span class="text-muted ml-3">4</span>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="text-nowrap mr-3"><span class="d-inline-block align-middle text-muted">1</span><i class="fa fa-star  font-size-xs ml-1"></i></div>
+                  <div class="w-100">
+                    <div class="progress" style="height: 4px;">
+                      <div class="progress-bar bg-danger" role="progressbar" style="width: 4%;" aria-valuenow="4" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div><span class="text-muted ml-3">2</span>
+                </div>
+              </div>
+            </div>
+            <hr class="mt-4 pb-4 mb-3">
+            <div class="row pb-4">
+              <!-- Reviews list-->
+              <div class="col-md-7">
+                <div class="d-flex justify-content-end pb-4">
+                  <div class="form-inline flex-nowrap">
+                    <label class="text-muted text-nowrap mr-2 d-none d-sm-block" for="sort-reviews">Sort by:</label>
+                    <select class="custom-select custom-select-sm" id="sort-reviews">
+                      <option>Newest</option>
+                      <option>Oldest</option>
+                      <option>Popular</option>
+                      <option>High rating</option>
+                      <option>Low rating</option>
+                    </select>
+                  </div>
+                </div>
+                <!-- Review-->
+                {% for ps in comment|slice:'0:5' %}
+                <div class="product-review pb-4 mb-4 border-bottom">
+                  <div class="d-flex mb-3">
+                    <div class="media media-ie-fix align-items-center mr-4 pr-2"><img class="rounded-circle" width="50" src="{% static '/img/userprofile.jpg' %}" alt="{{ps.user}}"/>
+                      <div class="media-body pl-3">
+                        <h6 class="font-size-sm mb-0">{{ps.username}}</h6><span class="font-size-ms text-muted">{{ps.create_at}}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="star-rating">
+                        <i class="fa fa-star {% if ps.rate > 1 %} text-warning {% endif %} "></i>
+                        <i class="fa fa-star {% if ps.rate > 2 %} text-warning {% endif %} "></i>
+                        <i class="fa fa-star {% if ps.rate > 3 %} text-warning {% endif %} "></i>
+                        <i class="fa fa-star {% if ps.rate > 4 %} text-warning {% endif %} "></i>
+                        <i class="fa fa-star {% if ps.rate > 50 %} text-warning {% endif %} "></i>
+
+                        <small>{{ps.star_average}}</small>
+                      </div>
+                      <div class="font-size-ms text-muted">83% of users found this review helpful</div>
+                    </div>
+                  </div>
+                  <p class="font-size-md mb-2">{{ps.comment}}</p>
+                  <ul class="list-unstyled font-size-ms pt-1">
+                    <li class="mb-1"><span class="font-weight-medium">location:&nbsp;</span>Invaild location of user</li>
+                  </ul>
+                  {% if user.id is not None %}
+
+                  <form action="/likepost/{{product.id}}/" method="POST">
+                    {% csrf_token %}
+                  <div class="text-nowrap">
+                    <input type="hidden" name="post_id" value="{{ps.id}}">
+                    {% if user not in ps.like.all %}
+                    <button class="btn btn-primary btn-shadow" name='vote1' type="submit"><i class="fa fa-thumbs-up"></i> </button> {{ps.like.all.count}} likes
+                    {% else %}
+                    <button class="btn btn-primary btn-shadow" name='vote2' type="submit"><i class="fa fa-thumbs-down"></i> </button> {{ps.like.all.count}} likes
+                    {% endif %}
+                  </div>
+                  </form>
+                  {% endif %}
+                </div>
+                {% endfor %}
+                <div class="text-center">
+                  <button class="btn btn-outline-accent" type="button"><i class="fa fa-upload mr-2"></i>Load more reviews</button>
+                </div>
+              </div>
+              <!-- Leave review form-->
+              <div class="col-md-5 mt-2 pt-4 mt-md-0 pt-md-0">
+                <div class="bg-secondary py-grid-gutter px-grid-gutter rounded-lg">
+                  <h3 class="h4 pb-2">Write a review</h3>
+                  <form class="needs-validation" method="post" novalidate action="/comment/{{product.id}}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="review-name">Your name<span class="text-danger">*</span></label>
+                      <input class="form-control" type="text" required id="review-name" name="name">
+                      <div class="invalid-feedback">Please enter your name!</div><small class="form-text text-muted">Will be displayed on the comment.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="review-rating">Rating<span class="text-danger">*</span></label>
+                      <select class="custom-select" required id="review-rating" name="rate">
+                        <option value="">Choose rating</option>
+                        <option value="5">5 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="2">2 stars</option>
+                        <option value="1">1 star</option>
+                      </select>
+                      <div class="invalid-feedback">Please choose rating!</div>
+                    </div>
+                    <div class="form-group">
+                      <label for="review-text">Review<span class="text-danger">*</span></label>
+                      <textarea class="form-control" rows="6" required id="review-text" name="comment"></textarea>
+                      <div class="invalid-feedback">Please write a review!</div><small class="form-text text-muted">Your review must be at least 50 characters.</small>
+                    </div>
+
+                      {% if user.id is not None %}
+                      <button class="btn btn-primary btn-shadow btn-block" type="submit">Submit a Review</button>
+                      {% else %}
+                      Your must be logged in to post a review
+                      {% endif %}
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Product description-->
+  <div class="container pt-lg-3 pb-4 pb-sm-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <h2 class="h3 pb-2">Choose your style</h2>
+        <p>{{product.detail|safe}}</p>
+      </div>
+    </div>
+  </div>
+  <hr class="pb-5">
+  <!-- Product carousel (You may also like)-->
+  <div class="container pt-lg-2 pb-5 mb-md-3">
+    <h2 class="h3 text-center pb-4">You may also like</h2>
+    <div class="carousel slider"  data-ride="carousel" id="postcarousel">
+      <div class="carousel-inner">
+        <!-- Product-->
+        <div class="row row-equal  mt-0">
+          {% for ps in product_related|slice:'0:6' %}
+          <div class="col-md-2">
+            <div class="card ">
+              <div class="card-img-top card-img-top-250">
+                <img src="{{ps.image1.url}}" class="img-fluid" alt="Product">
+              </div>
+              <div class="card-body py-2"><a class="product-meta d-block font-size-xs pb-1" href="#">{{ps.title|truncatechars:25}}</a>
+                <h3 class="product-title font-size-sm"><a href="/show_product/{{ps.id}}">{{ps.heading|truncatechars:30}}</a></h3>
+                <div class="d-flex justify-content-between">
+                  <div class="product-price"><span class="text-accent">${{ps.price}}.<small>00</small></span></div>
+                  <div class="star-rating">
+                    <i class="fa fa-star {% if ps.star_average >= 1 %} text-warning {% endif %} "></i>
+                    <i class="fa fa-star {% if ps.star_average >= 2 %} text-warning {% endif %} "></i>
+                    <i class="fa fa-star {% if ps.star_average >= 3 %} text-warning {% endif %} "></i>
+                    <i class="fa fa-star {% if ps.star_average >= 40 %} text-warning {% endif %} "></i>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

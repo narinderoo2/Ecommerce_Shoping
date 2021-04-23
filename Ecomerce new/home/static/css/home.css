@@ -1,0 +1,16 @@
+.carousel-inner>.row-equal.active,
+.carousel-inner>.row-equal.next,
+.carousel-inner>.row-equal.prev{
+    display: flex;
+}
+
+.carousel-inner>.row-equal.active.left,
+.carousel-inner>.row-equal.active.right{
+    opacity: 0.5;
+    display: flex;
+}
+
+.card-img-top-250{
+    max-height: 250px;
+    overflow: hidden;
+}

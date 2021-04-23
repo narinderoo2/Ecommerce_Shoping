@@ -1,0 +1,108 @@
+{% extends 'alllink.html' %}
+{% load static %}
+{% block title %}About {% endblock %}
+{% block body %}
+
+
+<!-- Page Content-->
+    <main class="container-fluid px-0">
+      <!-- Row: Shop online-->
+      <section class="row no-gutters">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary" style="min-height: 15rem; background-image: url({% static '/img/kid/48.jpg' %});"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Search, Select, Buy online</h2>
+            <p class="font-size-sm pb-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor. Mauris rutrum fermentum erat, at euismod lorem pharetra nec. Duis erat lectus, ultrices euismod sagittis at, pharetra eu nisl. Phasellus id ante at velit tincidunt hendrerit. Aenean dolor dolor tristique nec. Tristique nulla aliquet enim tortor at auctor urna nunc. Sit amet aliquam id diam maecenas ultricies mi eget.</p><a class="btn btn-primary btn-shadow" href="#">View products</a>
+          </div>
+        </div>
+      </section>
+      <!-- Row: Delivery-->
+      <section class="row no-gutters">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary order-md-2" style="min-height: 15rem; background-image: url({% static '/img/kid/49.jpg' %});"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5 order-md-1">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Fast delivery worldwide</h2>
+            <p class="font-size-sm pb-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor. Mauris rutrum fermentum erat, at euismod lorem pharetra nec. Duis erat lectus, ultrices euismod sagittis at, pharetra eu nisl. Phasellus id ante at velit tincidunt hendrerit. Aenean dolor dolor tristique nec. Tristique nulla aliquet enim tortor at auctor urna nunc. Sit amet aliquam id diam maecenas ultricies mi eget.</p><a class="btn btn-accent btn-shadow" href="#">Shipping details</a>
+          </div>
+        </div>
+      </section>
+      <!-- Row: Mobile app-->
+      <section class="row no-gutters">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary" style="min-height: 15rem; background-image: url({% static '/img/kid/50.jpg' %});"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Great mobile app. Shop on the go</h2>
+            <p class="font-size-sm pb-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor. Mauris rutrum fermentum erat, at euismod. Duis erat lectus, ultrices euismod sagittis at dolor tristique nec. Tristique nulla aliquet enim tortor at auctor urna nunc. Sit amet aliquam id diam maecenas ultricies mi eget.</p><a class="btn-market btn-apple mr-3 mb-3" href="#" role="button"><span class="btn-market-subtitle">Download on the</span><span class="btn-market-title">App Store</span></a><a class="btn-market btn-google mb-3" href="#" role="button"><span class="btn-market-subtitle">Download on the</span><span class="btn-market-title">Google Play</span></a>
+          </div>
+        </div>
+      </section>
+      <!-- Section: Shopping outlets-->
+      <section class="row no-gutters">
+        <div class="col-md-6 bg-position-center bg-size-cover bg-secondary order-md-2" style="min-height: 15rem; background-image: url({% static '/img/kid/44.jpg' %});"></div>
+        <div class="col-md-6 px-3 px-md-5 py-5 order-md-1">
+          <div class="mx-auto py-lg-5" style="max-width: 35rem;">
+            <h2 class="h3 pb-3">Shop offline. Cozy outlet stores</h2>
+            <p class="font-size-sm pb-3 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id purus at risus pellentesque faucibus a quis eros. In eu fermentum leo. Integer ut eros lacus. Proin ut accumsan leo. Morbi vitae est eget dolor consequat aliquam eget quis dolor. Mauris rutrum fermentum erat, at euismod lorem pharetra nec. Duis erat lectus, ultrices euismod sagittis at, pharetra eu nisl. Phasellus id ante at velit tincidunt hendrerit. Aenean dolor dolor tristique nec. Tristique nulla aliquet enim tortor at auctor urna nunc. Sit amet aliquam id diam maecenas ultricies mi eget.</p><a class="btn btn-warning btn-shadow" href="#">See outlet stores</a>
+          </div>
+        </div>
+      </section>
+      <hr>
+      <!-- Section: Team-->
+      <section class="container py-3 py-lg-5 mt-4 mb-3">
+        <h2 class="h3 my-2">Our core team</h2>
+        <p class="font-size-sm text-muted">People behind your great shopping experience</p>
+        <div class="row pt-3">
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="media align-items-center"><img class="d-inline-block rounded-circle" src= "{% static '/img/heading/01.jpg' %}" width="96" alt="Jonathan Doe">
+              <div class="media-body pl-3">
+                <h6 class="font-size-base pt-1 mb-1">Rajan Thakur</h6>
+                <p class="font-size-ms text-muted mb-0">CEO, Co-founder</p><a class="nav-link-style font-size-ms text-nowrap" href="#"><i class="fa fa-envelope mr-2"></i>johndoe@example.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="media align-items-center"><img class="d-inline-block rounded-circle" src= "{% static '/img/heading/02.jpg' %}" width="96" alt="Barbara Palson">
+              <div class="media-body pl-3">
+                <h6 class="font-size-base pt-1 mb-1">Naresh Kumar</h6>
+                <p class="font-size-ms text-muted mb-0">CEO, Co-founder</p><a class="nav-link-style font-size-ms text-nowrap" href="#"><i class="fa fa-envelope mr-2"></i>johndoe@example.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="media align-items-center"><img class="d-inline-block rounded-circle" src= "{% static '/img/heading/03.jpg' %}" width="96" alt="William Smith">
+              <div class="media-body pl-3">
+                <h6 class="font-size-base pt-1 mb-1">Gagan sharma</h6>
+                <p class="font-size-ms text-muted mb-0">CEO, Co-founder</p><a class="nav-link-style font-size-ms text-nowrap" href="#"><i class="fa fa-envelope mr-2"></i>johndoe@example.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="media align-items-center"><img class="d-inline-block rounded-circle" src= "{% static '/img/heading/04.jpg' %}" width="96" alt="Amanda Gallaher">
+              <div class="media-body pl-3">
+                <h6 class="font-size-base pt-1 mb-1">Manu thakur</h6>
+                <p class="font-size-ms text-muted mb-0">CEO, Co-founder</p><a class="nav-link-style font-size-ms text-nowrap" href="#"><i class="fa fa-envelope mr-2"></i>johndoe@example.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="media align-items-center"><img class="d-inline-block rounded-circle" src= "{% static '/img/heading/05.jpg' %}" width="96" alt="Benjamin Miller">
+              <div class="media-body pl-3">
+                <h6 class="font-size-base pt-1 mb-1">Bindu kumar</h6>
+                <p class="font-size-ms text-muted mb-0">CEO, Co-founder</p><a class="nav-link-style font-size-ms text-nowrap" href="#"><i class="fa fa-envelope mr-2"></i>johndoe@example.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+            <div class="media align-items-center"><img class="d-inline-block rounded-circle" src= "{% static '/img/heading/06.jpg' %}" width="96" alt="Miguel Rodrigez">
+              <div class="media-body pl-3">
+                <h6 class="font-size-base pt-1 mb-1">Kaka pealban</h6>
+                <p class="font-size-ms text-muted mb-0">CEO, Co-founder</p><a class="nav-link-style font-size-ms text-nowrap" href="#"><i class="fa fa-envelope mr-2"></i>johndoe@example.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Section: We are hiring-->
+      <hr>
+    </main>
+   {% endblock %}

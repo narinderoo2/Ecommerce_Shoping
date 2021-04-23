@@ -1,0 +1,162 @@
+{% extends 'alllink.html' %}
+{% load static %}
+{% block title %} R.Thakur Shop Cart{% endblock %}
+{% block body %}
+      
+ <!-- Page Title-->
+ <div class="page-title-overlap bg-dark pt-4">
+      <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+          <nav>
+            <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+              <li ><a class="text-nowrap" href="#"><i class="fa fa-home"></i>&nbsp;Home /&nbsp;</a></li>
+              <li class=" text-nowrap"><a href="#">Shop /&nbsp;</a>
+              </li>
+              <li class=" text-nowrap active" aria-current="page">Cart</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+          <h1 class="h3 text-light mb-0">Your cart</h1>
+        </div>
+      </div>
+    </div>
+    <!-- Page Content-->
+    <div class="container pb-5 mb-2 mb-md-4">
+      <div class="row">
+        <!-- List of items-->
+        <section class="col-lg-8">
+          <div class="d-flex justify-content-between align-items-center pt-3 pb-2 pb-sm-5 mt-1">
+            <h1 class="h6 text-light mb-0"> All Products Of Your Cart</h1><a class="btn btn-outline-primary btn-sm pl-2" href="{% url 'home' %}"><i class="fa fa-arrow-left mr-2"></i>Continue shopping</a>
+          </div>
+          {% if shpcart %}
+
+          {% for ps in shpcart %}
+
+          <!-- Item-->
+          <div class="d-sm-flex justify-content-between align-items-center my-4 pb-3 border-bottom">
+
+              <div class="media media-ie-fix d-block d-sm-flex align-items-center text-center text-sm-left">
+                <a class="d-inline-block mx-auto mr-sm-4" href="{% url 'show_product' ps.product.id %}" style="width: 10rem;">
+                {% if ps.variant.image_id > 0 %}
+                  <img src="{{ps.variant.image_tag}}" alt="Product"></a>
+                {% else %}
+                  <img src="{{ps.product.image1.url}}" alt="Product"></a>
+                {% endif %}
+
+              <div class="media-body pt-2">
+                <h3 class="product-title font-size-base mb-2"><a href="{% url 'show_product' ps.product.id %}">{{ps.product.title}}</a></h3>
+<!--                <h3 class="product-title font-size-base mb-2"><a href="/product/{{ps.product.id}}/{{ps.product.slug}}">{{ps.product.title}}</a></h3>-->
+
+                  {% if  ps.product.variant != 'None' %} 
+                  <div class="font-size-sm"><span class="text-muted mr-2">Size:</span>{{ps.variant.size}}</div>
+                  <div class="font-size-sm"><span class="text-muted mr-2">Color:</span>{{ps.variant.color}}</div>
+                  {% endif %}
+                
+                <div class="font-size-lg text-accent pt-2">{% if ps.product.variant == 'None' %} ${{ps.product.price}} {% else %} ${{ps.variant.price}} {% endif %}</div>
+              </div>
+            </div>
+            <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 9rem;">
+              <div class="form-group mb-0">
+                <label class="font-weight-medium">Quantity {{ps.quantity}}</label>
+
+              </div>
+              <a href="{% url 'deletefromcart' ps.id %}"><button class="btn btn-link px-0 text-danger" type="button"><i class="fa fa-close mr-2"></i><span class="font-size-sm">Remove</span></button></a>
+            </div>
+          </div>
+
+          {% endfor %}
+
+          {% else %}
+          <h1>Please Add Product In Your Cart </h1>
+          <h1> Go To <a href="{% url 'home' %}">Home</a> </h1>
+
+          {% endif %}
+
+
+<!--  Pagiantion in shop cart-->
+
+            {% if shpcart.has_other_pages %}
+                <ul class="pagination">
+                    {% if shpcart.has_previous %}
+                    <li class="page-item">
+                        <a href="?page={{ shpcart.previous_page_number }}" class="page-link">Previous</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a href="" class="page-link"> Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in shpcart.paginator.page_range %}
+                    {% if shpcart.number == i %}
+                    <li class="page-item active">
+                        <a href="" class="page-link"> {{i}}</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a href="?page={{i}}" class="page-link"> {{i}}</a>
+<!--                        <a href="?page={{i}}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}-->
+<!--" class="page-link"> {{i}}</a>-->
+
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if shpcart.has_next %}
+                    <li class="page-item ">
+                        <a href="?page={{shpcart.next_page_number }}" class="page-link"> Next</a>
+                    </li>
+                    {% else %}
+
+                    <li class="page-item disabled">
+                        <a href="" class="page-link"> Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+        </section>
+        <!-- Sidebar-->
+        <aside class="col-lg-4 pt-4 pt-lg-0">
+          <div class="cz-sidebar-static rounded-lg box-shadow-lg ml-lg-auto">
+            <div class="text-center mb-4 pb-3 border-bottom">
+              <h2 class="h6 mb-3 pb-1">Subtotal</h2>
+              <h3 class="font-weight-normal">$
+              
+                {{total}}
+              
+              
+              </h3>
+              
+            </div>
+            <form method="post">
+            {% csrf_token %}
+            <div class="form-group mb-4">
+            
+              <label class="mb-3" for="order-comments"><span class="badge badge-info font-size-xs mr-2">Note</span><span class="font-weight-medium">Additional comments</span></label>
+              <textarea name="comment" class="form-control" rows="6" id="order-comments"></textarea>
+            
+            </div>
+            <div class="accordion" id="order-options">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="accordion-heading"><a href="#promo-code" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="promo-code">Apply promo code</a></h3>
+                </div>
+                <div class="collapse show" id="promo-code" data-parent="#order-options">
+                  {% comment %} <form class="card-body needs-validation"  novalidate> {% endcomment %}
+                    <div class="form-group">
+                      <input class="form-control" type="text" placeholder="Promo code" required>
+                      <div class="invalid-feedback">Please provide promo code.</div>
+                    </div>
+                    <button class="btn btn-outline-primary btn-block" type="submit">Apply promo code</button>
+                  {% comment %} </form> {% endcomment %}
+                </div>
+              </div>
+            </div><a class="btn btn-primary btn-shadow btn-block mt-4" href="{% url 'checkout' %}"><i class="fa fa-credit-card font-size-lg mr-2"></i>Proceed to Checkout</a>
+            </form
+          </div>
+        </aside>
+      </div>
+    </div>
+
+{% endblock %}

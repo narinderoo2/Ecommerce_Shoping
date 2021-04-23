@@ -1,0 +1,183 @@
+{% extends 'alllink.html' %}
+{% load static %}
+{% block title %}Contact{% endblock %}
+{% block body %}
+
+<!-- Page Title (Light)-->
+    <div class="bg-secondary py-4">
+      <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+          <nav>
+            <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
+              <li ><a class="text-nowrap" href="{% url 'home' %}"><i class="fa fa-home"></i> Home / &nbsp;</a></li>
+              <li>Contacts &nbsp;</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
+          <h1 class="h3 mb-0">Contacts</h1>
+        </div>
+      </div>
+    </div>
+    <!-- Page Content-->
+    <!-- Contact detail cards-->
+    <section class="container-fluid pt-grid-gutter">
+      <div class="row">
+        <div class="col-xl-3 col-md-6 mb-grid-gutter"><a class="card" href="#map" data-scroll>
+            <div class="card-body text-center"><i class="fa fa-location-arrow mt-2 mb-4 text-primary"></i>
+              <h3 class="h6 mb-2">Main store address</h3>
+              <p class="font-size-sm text-muted">India, Punjab, Minicaft IP-121110</p>
+              <div class="font-size-sm text-primary">Click to see map<i class="fa fa-arrow-right align-middle ml-1"></i></div>
+            </div></a></div>
+        <div class="col-xl-3 col-md-6 mb-grid-gutter">
+          <div class="card">
+            <div class="card-body text-center"><i class="fa fa-times h3 mt-2 mb-4 text-primary"></i>
+              <h3 class="h6 mb-3">Working hours</h3>
+              <ul class="list-unstyled font-size-sm text-muted mb-0">
+                <li>Mon - Fri: 10AM - 7PM</li>
+                <li class="mb-0">Sta: 11AM - 5PM</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-grid-gutter">
+          <div class="card">
+            <div class="card-body text-center"><i class="fa fa-phone h3 mt-2 mb-4 text-primary"></i>
+              <h3 class="h6 mb-3">Phone numbers</h3>
+              <ul class="list-unstyled font-size-sm mb-0">
+                <li><span class="text-muted mr-1">For customers:</span><a class="nav-link-style" href="tel:+0000000000">+1 (000) 012345</a></li>
+                <li class="mb-0"><span class="text-muted mr-1">Tech support:</span><a class="nav-link-style" href="tel:+00000000">+1 00 88 8888 99</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-grid-gutter">
+          <div class="card">
+            <div class="card-body text-center"><i class="fa fa-envelope-o h3 mt-2 mb-4 text-primary"></i>
+              <h3 class="h6 mb-3">Email addresses</h3>
+              <ul class="list-unstyled font-size-sm mb-0">
+                <li><span class="text-muted mr-1">For customers:</span><a class="nav-link-style" href="mailto:+0000000">customer@example.com</a></li>
+                <li class="mb-0"><span class="text-muted mr-1">Tech support:</span><a class="nav-link-style" href="mailto:support@example.com">support@example.com</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Outlet stores-->
+    <section class="container pt-4 mt-md-4 mb-5">
+      <h2 class="h3 text-center mb-3">Partner outlet stores</h2>
+      <div class="row pt-4">
+        <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+          <div class="card border-0 box-shadow"><img class="card-img-top" src="{% static '/img/kid/41.jpg' %}" alt="Orlando"/>
+            <div class="card-body">
+              <h6>Orlando, USA</h6>
+              <ul class="list-unstyled mb-0">
+                <li class="media pb-3 border-bottom"><i class="fa fa-location-arrow font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Find us</span><a class="d-block text-heading font-size-sm" href="#">Mahakal tempal , ujjan,India</a></div>
+                </li>
+                <li class="media pt-2 pb-3 border-bottom"><i class="fa fa-phone font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Call us</span><a class="d-block text-heading font-size-sm" href="tel:+0000">+1 000 000 0</a></div>
+                </li>
+                <li class="media pt-2"><i class="fa fa-envelope-o font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Write us</span><a class="d-block text-heading font-size-sm" href="mailto:o@example.com">o@example.com</a></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+          <div class="card border-0 box-shadow"><img class="card-img-top" src="{% static '/img/kid/42.jpg' %}" alt="Chicago"/>
+            <div class="card-body">
+              <h6>Chicago, USA</h6>
+              <ul class="list-unstyled mb-0">
+                <li class="media pb-3 border-bottom"><i class="fa fa-location-arrow font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Find us</span><a class="d-block text-heading font-size-sm" href="#">New line india gate , India</a></div>
+                </li>
+                <li class="media pt-2 pb-3 border-bottom"><i class="fa fa-phone font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Call us</span><a class="d-block text-heading font-size-sm" href="tel:+0000000">+1 (00) 11111 1 1 11</a></div>
+                </li>
+                <li class="media pt-2"><i class="fa fa-envelope font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Write us</span><a class="d-block text-heading font-size-sm" href="mailto:hai@example.com">hai@example.com</a></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 mb-grid-gutter">
+          <div class="card border-0 box-shadow"><img class="card-img-top" src="{% static '/img/kid/41.jpg' %}" alt="New York"/>
+            <div class="card-body">
+              <h6>New York, USA</h6>
+              <ul class="list-unstyled mb-0">
+                <li class="media pb-3 border-bottom"><i class="fa fa-location-arrow font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Find us</span><a class="d-block text-heading font-size-sm" href="#">Mahakal Tempal, himachal, India</a></div>
+                </li>
+                <li class="media pt-2 pb-3 border-bottom"><i class="fa fa-phone font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Call us</span><a class="d-block text-heading font-size-sm" href="tel:+0000">+10 000 000</a></div>
+                </li>
+                <li class="media pt-2"><i class="fa fa-envelope font-size-lg mt-2 mb-0 text-primary"></i>
+                  <div class="media-body pl-3"><span class="font-size-ms text-muted">Write us</span><a class="d-block text-heading font-size-sm" href="mailto:newyork@example.com">newyork@example.com</a></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Split section: Map + Contact form-->
+    <div class="container-fluid px-0" id="map">
+      <div class="row no-gutters">
+        <div class="col-lg-6 iframe-full-height-wrap">
+          <!-- <iframe class="iframe-full-height" width="600" height="250" > </iframe> -->
+          <img class="img-fluid" src="{% static '/img/heading/02.jpg' %}" width="600" height="250" >
+        </div>
+        <div class="col-lg-6 px-4 px-xl-5 py-5 border-top">
+
+          <!-- Form -->
+            <h2 class="h4 mb-4">Drop us a line</h2>
+
+            <form class="needs-validation mb-3" novalidate method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="name">Your name:&nbsp;<span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" id="name" name="name" placeholder="John Doe" required>
+                  <div class="invalid-feedback">Please fill in you name!</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="email">Email address:&nbsp;<span class="text-danger">*</span></label>
+                  <input class="form-control" type="email" id="email" name='email' placeholder="johndoe@email.com" required>
+                  <div class="invalid-feedback">Please provide valid email address!</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="phone">Your phone:&nbsp;<span class="text-danger">*</span></label>
+                  <input class="form-control" type="text" id="phone" name="phone" placeholder="+1 (212) 00 000 000" required>
+                  <div class="invalid-feedback">Please provide valid phone number!</div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="subject">Subject:</label>
+                  <input class="form-control" type="text" id="subject" name="subject" placeholder="Provide short title of your request">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="message">Message:&nbsp;<span class="text-danger">*</span></label>
+              <textarea class="form-control" id="message" name="message" rows="6" placeholder="Please describe in detail your request" required></textarea>
+              <div class="invalid-feedback">Please write a message!</div>
+            </div>
+            <button class="btn btn-primary" type="submit">Send message</button>
+          </form>
+
+         
+        </div>
+      </div>
+    </div>
+    <!-- Footer-->
+{% endblock %}
